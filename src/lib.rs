@@ -179,6 +179,8 @@ impl Editor for WebViewEditor {
 
         let window = util::into_window_handle(window);
 
+        gtk::init().expect("COULDNT INIT GTK");
+
         let mut web_context = WebContext::new(Some(self.config.workdir.clone()));
 
         let webview_builder = setup_webview(
