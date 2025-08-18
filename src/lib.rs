@@ -21,11 +21,10 @@ use wry::{
     Rect, WebContext, WebView, WebViewBuilder,
 };
 
-use self::reparent::TempWindow;
 use self::safe_cell::SendCell;
 
 mod handler;
-mod reparent;
+
 mod safe_cell;
 mod util;
 
@@ -198,16 +197,6 @@ impl Editor for WebViewEditor {
 
         self.webview_state.open.store(true, Ordering::Release);
 
-        // If the webview was already created, reuse it.
-        if let Some(handle) = self.instance.borrow().as_ref() {
-            if let Some(_) = reparent::reparent_webview(&handle.webview, window) {
-                log::debug!("Reusing existing webview instance");
-                return Box::new(EditorHandle {
-                    instance: SendCell::new(self.instance.clone()),
-                });
-            }
-        }
-
         log::info!("Creating new webview instance");
         log::debug!("Workdir: {:?}", self.config.workdir);
 
@@ -234,7 +223,6 @@ impl Editor for WebViewEditor {
             webview: Rc::new(webview),
             web_context: Rc::new(web_context),
             gui_context: Arc::clone(&gui_context),
-            temp_window: TempWindow::new(),
         }));
 
         log::info!("Editor spawned successfully");
@@ -421,7 +409,6 @@ struct WebViewInstance {
     #[expect(unused)]
     web_context: Rc<WebContext>,
     gui_context: Arc<dyn GuiContext>,
-    temp_window: TempWindow,
 }
 
 /// A handle to the editor window, returned from [`Editor::spawn`]. Host will
@@ -435,9 +422,6 @@ impl Drop for EditorHandle {
         log::debug!("Editor handle dropped");
         self.instance.borrow_mut().as_mut().map(|instance| {
             instance.webview_state.open.store(false, Ordering::Release);
-            // Reparent the webview to a temporary window, so that it can be reused
-            // later. On MacOS this is a NOOP.
-            instance.temp_window.reparent_from(&instance.webview);
         });
     }
 }
