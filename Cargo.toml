@@ -11,7 +11,7 @@ description = "A webview adapter for creating editor GUIs with nih-plug"
 
 [dependencies]
 crossbeam = "0.8.4"
-nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+nih_plug = { git = "https://github.com/dvub/nih-plug.git" }
 raw-window-handle = "0.6.2"
 serde = ">=1.0"
 wry = { git = "https://github.com/toiglak/wry.git", branch = "v0.50.5-fork", features = [
@@ -26,7 +26,7 @@ objc2 = "0.6.1"
 objc2-app-kit = "0.3.1"
 
 [dev-dependencies]
-nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = [
+nih_plug = { git = "https://github.com/dvub/nih-plug.git", features = [
     "standalone",
 ] }
 tempfile = "3.14.0"
