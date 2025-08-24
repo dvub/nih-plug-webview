@@ -10,7 +10,7 @@ license = "ISC"
 description = "A webview adapter for creating editor GUIs with nih-plug"
 
 [dependencies]
-nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+nih_plug = { git = "https://github.com/dvub/nih-plug.git" }
 crossbeam = "0.8.4"
 raw-window-handle = "0.6.2"
 serde = ">=1.0"
@@ -26,7 +26,7 @@ objc2 = "0.6.1"
 objc2-app-kit = "0.3.1"
 
 [dev-dependencies]
-nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", default-features = false, features = [
+nih_plug = { git = "https://github.com/dvub/nih-plug.git", default-features = false, features = [
     "standalone",
 ] }
 tempfile = "3.14.0"
